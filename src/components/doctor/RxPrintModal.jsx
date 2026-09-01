@@ -16,30 +16,39 @@ export const RxPrintModal = ({ isOpen, onClose, rxData, patient, vitals }) => {
   };
 
   return (
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div class="glass-card max-w-3xl w-full rounded-2xl p-6 border border-slate-700 shadow-2xl relative my-8">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
+      <div class="glass-card max-w-3xl w-full rounded-2xl p-4 sm:p-6 border border-slate-700 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
         
         {/* Modal Controls Top Bar */}
-        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
-          <h3 class="text-base font-bold text-white">Prescription Preview & Print</h3>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm sm:text-base font-bold text-white">Prescription Preview & Print</h3>
+            <button 
+              onClick={onClose}
+              class="sm:hidden text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+            >
+              <X class="w-5 h-5" />
+            </button>
+          </div>
+
           <div class="flex items-center gap-2">
             <button 
               onClick={handleWhatsApp}
-              class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-md"
+              class="flex-1 sm:flex-none justify-center px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-md"
             >
               <Share2 class="w-3.5 h-3.5" />
-              <span>Share on WhatsApp</span>
+              <span>WhatsApp</span>
             </button>
             <button 
               onClick={handlePrint}
-              class="px-4 py-1.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center gap-1.5 shadow-lg shadow-teal-500/20"
+              class="flex-1 sm:flex-none justify-center px-4 py-1.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center gap-1.5 shadow-lg shadow-teal-500/20"
             >
               <Printer class="w-3.5 h-3.5" />
-              <span>Print Prescription (A4/A5)</span>
+              <span>Print (A4/A5)</span>
             </button>
             <button 
               onClick={onClose}
-              class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 ml-2"
+              class="hidden sm:inline text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 ml-2"
             >
               <X class="w-5 h-5" />
             </button>

@@ -214,11 +214,11 @@ export const BillingPosView = () => {
           </div>
 
           {/* Line Items Table */}
-          <div class="glass-card p-5 rounded-2xl space-y-4">
+          <div class="glass-card p-4 sm:p-5 rounded-2xl space-y-4">
             <h4 class="text-xs font-bold text-white uppercase tracking-wider">Invoice Line Items</h4>
             
             <div class="space-y-2">
-              <div class="grid grid-cols-12 text-slate-400 text-xs font-semibold px-3 py-1 bg-slate-950 rounded-lg">
+              <div class="hidden sm:grid grid-cols-12 text-slate-400 text-xs font-semibold px-3 py-1 bg-slate-950 rounded-lg">
                 <span class="col-span-6">Description</span>
                 <span class="col-span-2 text-center">Qty</span>
                 <span class="col-span-2 text-right">Rate</span>
@@ -228,31 +228,44 @@ export const BillingPosView = () => {
               {lineItems.map((item, idx) => (
                 <div 
                   key={item.id || idx}
-                  class="grid grid-cols-12 items-center px-3 py-2.5 bg-slate-950/70 rounded-xl border border-slate-800 text-xs"
+                  class="p-3 sm:p-2.5 bg-slate-950/70 rounded-xl border border-slate-800 text-xs flex flex-col sm:grid sm:grid-cols-12 sm:items-center gap-2 sm:gap-0"
                 >
-                  <div class="col-span-6 pr-2">
+                  <div class="sm:col-span-6 flex items-center justify-between sm:pr-2">
                     <p class="font-bold text-white truncate">{item.name}</p>
-                  </div>
-                  <div class="col-span-2 text-center">
-                    <input 
-                      type="number" 
-                      min="1"
-                      value={item.qty}
-                      onChange={(e) => handleUpdateQty(idx, e.target.value)}
-                      class="w-12 bg-slate-900 text-white font-mono text-center font-bold px-1 py-0.5 rounded border border-slate-700"
-                    />
-                  </div>
-                  <span class="col-span-2 text-right font-mono text-slate-300">
-                    ₹{Number(item.unit_price).toFixed(2)}
-                  </span>
-                  <div class="col-span-2 flex items-center justify-end gap-2 font-mono font-bold text-white">
-                    <span>₹{Number(item.total_amount).toFixed(2)}</span>
                     <button 
                       onClick={() => handleRemoveItem(idx)}
-                      class="text-slate-500 hover:text-rose-400 text-xs ml-1"
+                      class="sm:hidden text-slate-500 hover:text-rose-400 text-xs p-1"
                     >
-                      ✕
+                      ✕ Remove
                     </button>
+                  </div>
+                  
+                  <div class="flex items-center justify-between sm:contents pt-1 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                    <div class="sm:col-span-2 sm:text-center flex items-center gap-1.5 sm:justify-center">
+                      <span class="sm:hidden text-slate-400 text-[10px]">Qty:</span>
+                      <input 
+                        type="number" 
+                        min="1"
+                        value={item.qty}
+                        onChange={(e) => handleUpdateQty(idx, e.target.value)}
+                        class="w-12 bg-slate-900 text-white font-mono text-center font-bold px-1 py-0.5 rounded border border-slate-700"
+                      />
+                    </div>
+
+                    <span class="sm:col-span-2 sm:text-right font-mono text-slate-300">
+                      <span class="sm:hidden text-slate-400 text-[10px]">Rate: </span>
+                      ₹{Number(item.unit_price).toFixed(2)}
+                    </span>
+
+                    <div class="sm:col-span-2 flex items-center justify-end gap-2 font-mono font-bold text-white">
+                      <span>₹{Number(item.total_amount).toFixed(2)}</span>
+                      <button 
+                        onClick={() => handleRemoveItem(idx)}
+                        class="hidden sm:inline text-slate-500 hover:text-rose-400 text-xs ml-1"
+                      >
+                        ✕
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -264,7 +277,7 @@ export const BillingPosView = () => {
         <div class="lg:col-span-5 space-y-5">
           
           {/* Bill Calculation Card */}
-          <div class="glass-card p-5 rounded-2xl space-y-4">
+          <div class="glass-card p-4 sm:p-5 rounded-2xl space-y-4">
             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Payment Breakdown</h3>
 
             <div class="space-y-2 text-xs">
@@ -285,14 +298,14 @@ export const BillingPosView = () => {
 
               <div class="border-t border-slate-800 pt-3 flex justify-between items-center">
                 <span class="text-sm font-bold text-white">Net Payable Amount</span>
-                <span class="text-2xl font-extrabold text-teal-400 font-mono">₹{grandTotal.toFixed(2)}</span>
+                <span class="text-xl sm:text-2xl font-extrabold text-teal-400 font-mono">₹{grandTotal.toFixed(2)}</span>
               </div>
             </div>
 
             {/* Payment Method Selector */}
             <div class="space-y-2 pt-2 border-t border-slate-800">
               <label class="block text-[10px] text-slate-400 uppercase font-semibold">Tender Mode</label>
-              <div class="grid grid-cols-4 gap-2">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {[
                   { id: 'UPI', label: '📱 UPI QR' },
                   { id: 'CASH', label: '💵 Cash' },
@@ -317,7 +330,7 @@ export const BillingPosView = () => {
 
             <button 
               onClick={handleGenerateInvoice}
-              class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg shadow-teal-500/25 flex items-center justify-center gap-2 transition-all"
+              class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm rounded-xl shadow-lg shadow-teal-500/25 flex items-center justify-center gap-2 transition-all"
             >
               <Receipt class="w-4 h-4" />
               <span>Complete Payment & Print Slip (₹{grandTotal.toFixed(2)})</span>

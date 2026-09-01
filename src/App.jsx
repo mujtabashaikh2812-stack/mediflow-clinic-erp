@@ -24,10 +24,10 @@ const MainLayout = () => {
   };
 
   return (
-    <div class="min-h-screen bg-slate-950 text-slate-100 pb-16">
+    <div class="min-h-screen bg-slate-950 text-slate-100 pb-24 lg:pb-12">
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       
-      <main class="max-w-7xl mx-auto px-4 sm:px-6">
+      <main class="max-w-7xl mx-auto px-3 sm:px-6">
         {activeTab === 'opd' && (
           <OpdQueueView 
             onNavigateToDoctor={handleNavigateToDoctor}

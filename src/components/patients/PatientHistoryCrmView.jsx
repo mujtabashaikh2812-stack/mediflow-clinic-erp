@@ -16,6 +16,7 @@ export const PatientHistoryCrmView = () => {
   const { patients, clinic, showToast } = useClinic();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPatient, setSelectedPatient] = useState(patients[0] || null);
+  const [mobileViewDetail, setMobileViewDetail] = useState(false);
 
   const filteredPatients = patients.filter(p => 
     p.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -24,12 +25,12 @@ export const PatientHistoryCrmView = () => {
   );
 
   return (
-    <div class="space-y-6">
+    <div class="space-y-4 sm:space-y-6">
       
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         
         {/* Left 4 Cols: Patient Search & Directory */}
-        <div class="lg:col-span-4 glass-card p-5 rounded-2xl space-y-4">
+        <div class={`lg:col-span-4 glass-card p-4 sm:p-5 rounded-2xl space-y-3 sm:space-y-4 ${mobileViewDetail ? 'hidden lg:block' : 'block'}`}>
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
               <Users class="w-4 h-4 text-teal-400" />
@@ -49,7 +50,7 @@ export const PatientHistoryCrmView = () => {
             />
           </div>
 
-          <div class="space-y-2 max-h-[550px] overflow-y-auto pr-1">
+          <div class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
             {filteredPatients.map(pt => {
               const isSelected = selectedPatient?.id === pt.id;
               const hasAllergies = pt.allergies && pt.allergies.length > 0;
@@ -57,8 +58,11 @@ export const PatientHistoryCrmView = () => {
               return (
                 <div 
                   key={pt.id}
-                  onClick={() => setSelectedPatient(pt)}
-                  class={`p-3.5 rounded-xl border cursor-pointer transition-all ${
+                  onClick={() => {
+                    setSelectedPatient(pt);
+                    setMobileViewDetail(true);
+                  }}
+                  class={`p-3 sm:p-3.5 rounded-xl border cursor-pointer transition-all ${
                     isSelected 
                       ? 'bg-teal-950/40 border-teal-500/50 shadow-md' 
                       : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
@@ -88,20 +92,30 @@ export const PatientHistoryCrmView = () => {
         </div>
 
         {/* Right 8 Cols: Longitudinal Patient Timeline & EMR */}
-        <div class="lg:col-span-8 glass-card p-6 rounded-2xl space-y-6">
+        <div class={`lg:col-span-8 glass-card p-4 sm:p-6 rounded-2xl space-y-4 sm:space-y-6 ${!mobileViewDetail ? 'hidden lg:block' : 'block'}`}>
+          {/* Mobile Back Button */}
+          <div class="lg:hidden pb-2 border-b border-slate-800">
+            <button
+              onClick={() => setMobileViewDetail(false)}
+              class="text-xs font-bold text-teal-400 hover:text-teal-300 flex items-center gap-1"
+            >
+              ← Back to Patient Directory
+            </button>
+          </div>
+
           {selectedPatient ? (
             <>
               {/* Header Profile Card */}
-              <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-800 pb-4">
                 <div>
-                  <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-extrabold text-white">{selectedPatient.full_name}</h2>
-                    <span class="px-2.5 py-0.5 text-xs bg-teal-500/20 text-teal-300 font-mono font-bold rounded-lg border border-teal-500/30">
+                  <div class="flex items-center gap-2.5 sm:gap-3">
+                    <h2 class="text-lg sm:text-xl font-extrabold text-white">{selectedPatient.full_name}</h2>
+                    <span class="px-2 sm:px-2.5 py-0.5 text-[11px] sm:text-xs bg-teal-500/20 text-teal-300 font-mono font-bold rounded-lg border border-teal-500/30">
                       {selectedPatient.uhid}
                     </span>
                   </div>
-                  <div class="flex flex-wrap items-center gap-4 text-xs text-slate-400 mt-2 font-mono">
-                    <span>Age: <b class="text-slate-200">{selectedPatient.age} Years</b></span>
+                  <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] sm:text-xs text-slate-400 mt-1.5 sm:mt-2 font-mono">
+                    <span>Age: <b class="text-slate-200">{selectedPatient.age} Y</b></span>
                     <span>Gender: <b class="text-slate-200">{selectedPatient.gender}</b></span>
                     <span>Blood: <b class="text-rose-400">{selectedPatient.blood_group || 'O+'}</b></span>
                     <span>Phone: <b class="text-slate-200">{selectedPatient.phone}</b></span>
@@ -110,7 +124,7 @@ export const PatientHistoryCrmView = () => {
 
                 <button 
                   onClick={() => showToast('Opening WhatsApp Reminder window', 'info')}
-                  class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-md"
+                  class="w-full sm:w-auto justify-center px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-md transition-all"
                 >
                   <Share2 class="w-3.5 h-3.5" />
                   <span>Send WhatsApp Follow-up</span>
@@ -118,16 +132,16 @@ export const PatientHistoryCrmView = () => {
               </div>
 
               {/* Allergy & Chronic Condition Callouts */}
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <div class="p-3 bg-rose-950/20 border border-rose-500/30 rounded-xl">
-                  <span class="text-[10px] font-bold text-rose-300 uppercase block mb-1">Registered Drug Allergies</span>
+                  <span class="text-[9px] sm:text-[10px] font-bold text-rose-300 uppercase block mb-0.5 sm:mb-1">Registered Drug Allergies</span>
                   <p class="text-xs text-rose-200 font-semibold">
                     {selectedPatient.allergies?.length > 0 ? selectedPatient.allergies.join(', ') : 'No known drug allergies'}
                   </p>
                 </div>
 
                 <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl">
-                  <span class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Chronic Conditions</span>
+                  <span class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase block mb-0.5 sm:mb-1">Chronic Conditions</span>
                   <p class="text-xs text-slate-200 font-semibold">
                     {selectedPatient.chronic_conditions?.length > 0 ? selectedPatient.chronic_conditions.join(', ') : 'None logged'}
                   </p>
@@ -135,18 +149,18 @@ export const PatientHistoryCrmView = () => {
               </div>
 
               {/* Clinical Timeline & Past Visits */}
-              <div class="space-y-4 pt-2">
+              <div class="space-y-3 sm:space-y-4 pt-1 sm:pt-2">
                 <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Longitudinal Clinical History</h3>
 
                 <div class="space-y-3">
-                  <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2">
-                    <div class="flex justify-between items-center text-xs">
+                  <div class="p-3.5 sm:p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-xs">
                       <span class="font-bold text-teal-300">OPD Consultation • Dr. Ananya Sharma</span>
-                      <span class="text-slate-400 font-mono">14 Days Ago (18 Aug 2026)</span>
+                      <span class="text-slate-400 font-mono text-[10px] sm:text-xs">14 Days Ago (18 Aug 2026)</span>
                     </div>
                     <p class="text-xs text-slate-300"><b>Diagnosis:</b> Acute Viral Upper Respiratory Infection</p>
                     <p class="text-xs text-slate-400"><b>Prescribed:</b> Dolo 650 (1-0-1), Ascoril-D Plus Syrup (1-1-1)</p>
-                    <div class="flex items-center gap-3 pt-1 text-[11px] text-teal-400 font-mono font-semibold">
+                    <div class="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 text-[10px] sm:text-[11px] text-teal-400 font-mono font-semibold">
                       <span>BP: 120/80 mmHg</span>
                       <span>•</span>
                       <span>SpO2: 99%</span>
@@ -159,7 +173,7 @@ export const PatientHistoryCrmView = () => {
             </>
           ) : (
             <div class="text-center py-16 text-slate-400 text-xs">
-              Select a patient from the left directory to view full medical history
+              Select a patient from the directory to view full medical history
             </div>
           )}
         </div>

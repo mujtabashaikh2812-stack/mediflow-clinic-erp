@@ -52,20 +52,20 @@ export const PharmacyInventoryView = () => {
         </button>
       </div>
 
-      {/* Main Pharmacy Inventory Table */}
-      <div class="glass-card p-6 rounded-2xl space-y-5">
+      {/* Main Pharmacy Inventory Table / Cards */}
+      <div class="glass-card p-4 sm:p-6 rounded-2xl space-y-4 sm:space-y-5">
         
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-800 pb-4">
           <div>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
               <ShoppingBag class="w-5 h-5 text-teal-400" />
               <span>In-House Pharmacy & Batch Inventory</span>
             </h3>
-            <p class="text-xs text-slate-400">Direct atomic stock depletion on prescription billing</p>
+            <p class="text-[11px] sm:text-xs text-slate-400">Direct atomic stock depletion on prescription billing</p>
           </div>
 
-          <div class="flex items-center gap-3">
-            <div class="relative min-w-[240px]">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
+            <div class="relative w-full sm:min-w-[220px]">
               <Search class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input 
                 type="text" 
@@ -78,7 +78,7 @@ export const PharmacyInventoryView = () => {
 
             <button 
               onClick={() => showToast('Stock batch update modal opened', 'info')}
-              class="px-4 py-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5"
+              class="w-full sm:w-auto justify-center px-4 py-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5"
             >
               <Plus class="w-4 h-4" />
               <span>+ Add Medicine Batch</span>
@@ -86,8 +86,59 @@ export const PharmacyInventoryView = () => {
           </div>
         </div>
 
-        {/* Medicines Table */}
-        <div class="overflow-x-auto">
+        {/* Mobile View: Responsive Cards (< sm) */}
+        <div class="sm:hidden space-y-2.5">
+          {filteredMeds.map((med) => {
+            const batch = med.batches?.[0] || { batch_number: 'BT-101', expiry_date: '2027-12-31', mrp: 50, purchase_rate: 30 };
+            const isLowStock = (med.total_stock || 0) < (med.reorder_level || 20);
+            const isNearExpiry = batch.expiry_date && batch.expiry_date.startsWith('2026-10');
+
+            return (
+              <div key={med.id} class="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800 space-y-2">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h4 class="font-bold text-white text-xs">{med.brand_name}</h4>
+                      <span class="px-1.5 py-0.2 bg-teal-500/20 text-teal-300 rounded font-semibold text-[9px]">
+                        {med.form}
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-0.5">{med.generic_name} ({med.strength || ''})</p>
+                  </div>
+
+                  {isNearExpiry ? (
+                    <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full text-[9px] font-bold">
+                      Near Expiry
+                    </span>
+                  ) : isLowStock ? (
+                    <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full text-[9px] font-bold">
+                      Low Stock
+                    </span>
+                  ) : (
+                    <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full text-[9px] font-bold">
+                      In Stock
+                    </span>
+                  )}
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-[11px] font-mono pt-2 border-t border-slate-800/80">
+                  <div>
+                    <span class="text-slate-500 block text-[9px] uppercase">Batch / Expiry</span>
+                    <span class="text-slate-300">{batch.batch_number} • {batch.expiry_date}</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-slate-500 block text-[9px] uppercase">Stock / MRP</span>
+                    <span class={`font-bold ${isLowStock ? 'text-rose-400' : 'text-emerald-400'}`}>{med.total_stock || 0} units</span>
+                    <span class="text-slate-400 text-[10px]"> (₹{batch.mrp})</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop Table View (>= sm) */}
+        <div class="hidden sm:block overflow-x-auto">
           <table class="w-full text-xs text-left">
             <thead class="text-slate-400 bg-slate-950 uppercase font-semibold">
               <tr>

@@ -77,12 +77,12 @@ export const PatientRegistrationModal = ({ isOpen, onClose, onRegistered }) => {
   };
 
   return (
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div class="glass-card max-w-2xl w-full rounded-2xl p-6 border border-slate-700 shadow-2xl relative my-8">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
+      <div class="glass-card max-w-2xl w-full rounded-2xl p-4 sm:p-6 border border-slate-700 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
         
         <button 
           onClick={onClose}
-          class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+          class="absolute top-4 right-4 text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800"
         >
           <X class="w-5 h-5" />
         </button>

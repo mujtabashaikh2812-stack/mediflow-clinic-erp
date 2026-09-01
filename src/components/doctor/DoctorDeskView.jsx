@@ -179,24 +179,24 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
     <div class="space-y-6">
       
       {/* Active Patient Consultation Banner */}
-      <div class="glass-card p-5 rounded-2xl flex flex-wrap items-center justify-between gap-4 border-l-4 border-l-teal-400">
-        <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-teal-500/20 border border-teal-500/40 flex flex-col items-center justify-center font-mono text-teal-300">
-            <span class="text-[9px] font-bold uppercase">TOKEN</span>
-            <span class="text-xl font-extrabold text-white">#{activeToken?.token_number || '--'}</span>
+      <div class="glass-card p-4 sm:p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-teal-400">
+        <div class="flex items-start sm:items-center gap-3 sm:gap-4">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-500/20 border border-teal-500/40 flex flex-col items-center justify-center font-mono text-teal-300 flex-shrink-0">
+            <span class="text-[8px] sm:text-[9px] font-bold uppercase">TOKEN</span>
+            <span class="text-lg sm:text-xl font-extrabold text-white">#{activeToken?.token_number || '--'}</span>
           </div>
 
-          <div>
-            <div class="flex items-center gap-3">
-              <h2 class="text-lg font-bold text-white">
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-base sm:text-lg font-bold text-white truncate">
                 {activeToken?.patient?.full_name || 'No Active Patient in Cabin'}
               </h2>
               {activeToken && (
                 <>
-                  <span class="px-2 py-0.5 text-xs bg-slate-800 text-slate-300 rounded font-mono">
+                  <span class="px-2 py-0.5 text-[11px] sm:text-xs bg-slate-800 text-slate-300 rounded font-mono">
                     {activeToken.patient?.age} Yrs / {activeToken.patient?.gender}
                   </span>
-                  <span class="px-2 py-0.5 text-xs bg-teal-500/20 text-teal-300 font-mono rounded">
+                  <span class="px-2 py-0.5 text-[11px] sm:text-xs bg-teal-500/20 text-teal-300 font-mono rounded">
                     {activeToken.patient?.uhid}
                   </span>
                 </>
@@ -205,10 +205,10 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
 
             {/* Allergy Flag */}
             {activeToken?.patient?.allergies?.length > 0 && (
-              <div class="mt-1 flex items-center gap-2">
-                <span class="px-2.5 py-0.5 text-xs font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded-full flex items-center gap-1.5 animate-pulse">
+              <div class="mt-1.5 flex items-center gap-2">
+                <span class="px-2.5 py-0.5 text-[10px] sm:text-xs font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded-full flex items-center gap-1.5 animate-pulse">
                   <AlertTriangle class="w-3.5 h-3.5 text-rose-400" />
-                  CRITICAL ALLERGY ALERT: {activeToken.patient.allergies.join(', ')}
+                  CRITICAL ALLERGY: {activeToken.patient.allergies.join(', ')}
                 </span>
               </div>
             )}
@@ -216,8 +216,8 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
         </div>
 
         {/* Switch Patient Dropdown / Queue Action */}
-        <div class="flex items-center gap-3">
-          <div class="text-xs min-w-[260px]">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800">
+          <div class="text-xs w-full sm:min-w-[240px]">
             <label class="block text-slate-400 text-[10px] uppercase font-semibold mb-1">Switch Patient in Queue</label>
             <CustomSelect
               options={waitingTokens.map(tok => ({
@@ -242,10 +242,10 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
 
           <button 
             onClick={handleCompletePrescription}
-            class="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-teal-500/25 flex items-center gap-2 transition-all mt-4 sm:mt-0"
+            class="w-full sm:w-auto justify-center px-5 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-teal-500/25 flex items-center gap-2 transition-all mt-1 sm:mt-4 md:mt-0"
           >
             <Save class="w-4 h-4" />
-            <span>Finish Rx & Send to Billing</span>
+            <span>Finish Rx & Send to Bill</span>
           </button>
         </div>
       </div>
@@ -542,35 +542,38 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
           </div>
 
           {/* List of Prescribed Medicines */}
-          <div class="space-y-3">
+          <div class="space-y-2.5">
             {prescribedMeds.map((med, idx) => (
               <div 
                 key={idx}
-                class="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3 hover:border-slate-700 transition-all"
+                class="p-3 sm:p-3.5 bg-slate-950/70 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 hover:border-slate-700 transition-all"
               >
-                <div class="flex items-center gap-3">
-                  <span class="px-2 py-0.5 text-[10px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded">
+                <div class="flex items-center gap-2.5 sm:gap-3">
+                  <span class="px-2 py-0.5 text-[9px] sm:text-[10px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded flex-shrink-0">
                     {med.form}
                   </span>
-                  <div>
-                    <h4 class="text-xs font-bold text-white">{med.drug_name}</h4>
-                    <p class="text-[11px] text-slate-400">{med.instructions}</p>
+                  <div class="min-w-0">
+                    <h4 class="text-xs font-bold text-white truncate">{med.drug_name}</h4>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 truncate">{med.instructions}</p>
                   </div>
                 </div>
 
-                <div class="flex items-center gap-2 text-xs font-mono">
-                  <span class="px-2 py-1 bg-slate-900 text-teal-400 font-bold rounded-lg border border-slate-800">
-                    {med.dosage_pattern}
-                  </span>
-                  <span class="px-2 py-1 bg-slate-900 text-slate-300 rounded-lg border border-slate-800">
-                    {med.timing.replace('_', ' ')}
-                  </span>
-                  <span class="px-2 py-1 bg-slate-900 text-slate-300 rounded-lg border border-slate-800">
-                    {med.duration}
-                  </span>
+                <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono pt-1.5 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                  <div class="flex items-center gap-1.5">
+                    <span class="px-2 py-0.5 bg-slate-900 text-teal-400 font-bold rounded-lg border border-slate-800">
+                      {med.dosage_pattern}
+                    </span>
+                    <span class="px-2 py-0.5 bg-slate-900 text-slate-300 rounded-lg border border-slate-800">
+                      {med.timing.replace('_', ' ')}
+                    </span>
+                    <span class="px-2 py-0.5 bg-slate-900 text-slate-300 rounded-lg border border-slate-800">
+                      {med.duration}
+                    </span>
+                  </div>
                   <button 
                     onClick={() => handleRemoveMed(idx)}
-                    class="p-1 text-slate-500 hover:text-rose-400 ml-1 rounded"
+                    class="p-1 text-slate-500 hover:text-rose-400 rounded transition-colors ml-1"
+                    title="Remove Medicine"
                   >
                     <Trash2 class="w-3.5 h-3.5" />
                   </button>

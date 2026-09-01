@@ -44,55 +44,55 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
   };
 
   return (
-    <div class="space-y-6">
+    <div class="space-y-4 sm:space-y-6">
       
       {/* Top Stat Summary Cards */}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div class="glass-card p-3.5 sm:p-5 rounded-2xl relative overflow-hidden">
           <div class="absolute top-0 right-0 w-24 h-24 bg-teal-500/10 rounded-full blur-2xl -mr-6 -mt-6"></div>
-          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Tokens Today</p>
-          <p class="text-3xl font-extrabold text-white mt-1 font-mono">{tokens.length}</p>
-          <p class="text-xs text-emerald-400 mt-2">Active OPD Session</p>
+          <p class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Tokens</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-white mt-1 font-mono">{tokens.length}</p>
+          <p class="text-[10px] sm:text-xs text-emerald-400 mt-1 sm:mt-2">Active Session</p>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+        <div class="glass-card p-3.5 sm:p-5 rounded-2xl relative overflow-hidden">
           <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl -mr-6 -mt-6"></div>
-          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">In Waiting Room</p>
-          <p class="text-3xl font-extrabold text-amber-400 mt-1 font-mono">{waitingCount}</p>
-          <p class="text-xs text-slate-400 mt-2">Average wait: ~10 mins</p>
+          <p class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">In Waiting</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-amber-400 mt-1 font-mono">{waitingCount}</p>
+          <p class="text-[10px] sm:text-xs text-slate-400 mt-1 sm:mt-2">~10 min wait</p>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+        <div class="glass-card p-3.5 sm:p-5 rounded-2xl relative overflow-hidden">
           <div class="absolute top-0 right-0 w-24 h-24 bg-teal-500/10 rounded-full blur-2xl -mr-6 -mt-6"></div>
-          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">In Doctor Cabin</p>
-          <p class="text-3xl font-extrabold text-teal-300 mt-1 font-mono">{inDoctorCount}</p>
-          <p class="text-xs text-slate-400 mt-2">Active Consultation</p>
+          <p class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">In Cabin</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-teal-300 mt-1 font-mono">{inDoctorCount}</p>
+          <p class="text-[10px] sm:text-xs text-slate-400 mt-1 sm:mt-2">With Doctor</p>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+        <div class="glass-card p-3.5 sm:p-5 rounded-2xl relative overflow-hidden">
           <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -mr-6 -mt-6"></div>
-          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Completed Consults</p>
-          <p class="text-3xl font-extrabold text-emerald-400 mt-1 font-mono">{completedCount}</p>
-          <p class="text-xs text-slate-400 mt-2">Prescribed & Billed</p>
+          <p class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">Completed</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1 font-mono">{completedCount}</p>
+          <p class="text-[10px] sm:text-xs text-slate-400 mt-1 sm:mt-2">Prescribed</p>
         </div>
       </div>
 
       {/* Main OPD Board & Queue Controls */}
-      <div class="glass-card p-6 rounded-2xl space-y-6">
+      <div class="glass-card p-4 sm:p-6 rounded-2xl space-y-4 sm:space-y-6">
         
         {/* Action Header & Search */}
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-800 pb-4">
           <div>
-            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
               <span>🎫 Live OPD Token Queue</span>
-              <span class="px-2 py-0.5 text-xs bg-teal-500/20 text-teal-300 rounded-full font-bold">Realtime</span>
+              <span class="px-2 py-0.5 text-[10px] sm:text-xs bg-teal-500/20 text-teal-300 rounded-full font-bold">Realtime</span>
             </h2>
-            <p class="text-xs text-slate-400">Reception triage & patient token calling board</p>
+            <p class="text-[11px] sm:text-xs text-slate-400">Reception triage & patient token calling board</p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
             {/* Search Input */}
-            <div class="relative min-w-[240px]">
+            <div class="relative w-full sm:min-w-[200px]">
               <Search class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input 
                 type="text" 
@@ -104,22 +104,22 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
             </div>
 
             {/* Filter Pills */}
-            <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+            <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] sm:text-xs justify-between sm:justify-start">
               <button 
                 onClick={() => setFilterStatus('ALL')}
-                class={`px-3 py-1 rounded-lg font-semibold transition-all ${filterStatus === 'ALL' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
+                class={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all ${filterStatus === 'ALL' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
               >
                 All ({tokens.length})
               </button>
               <button 
                 onClick={() => setFilterStatus('WAITING')}
-                class={`px-3 py-1 rounded-lg font-semibold transition-all ${filterStatus === 'WAITING' ? 'bg-amber-500/20 text-amber-300' : 'text-slate-400 hover:text-white'}`}
+                class={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all ${filterStatus === 'WAITING' ? 'bg-amber-500/20 text-amber-300' : 'text-slate-400 hover:text-white'}`}
               >
                 Waiting ({waitingCount})
               </button>
               <button 
                 onClick={() => setFilterStatus('WITH_DOCTOR')}
-                class={`px-3 py-1 rounded-lg font-semibold transition-all ${filterStatus === 'WITH_DOCTOR' ? 'bg-teal-500/20 text-teal-300' : 'text-slate-400 hover:text-white'}`}
+                class={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all ${filterStatus === 'WITH_DOCTOR' ? 'bg-teal-500/20 text-teal-300' : 'text-slate-400 hover:text-white'}`}
               >
                 In Cabin ({inDoctorCount})
               </button>
@@ -128,7 +128,7 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
             {/* New Patient Registration Button */}
             <button 
               onClick={() => setIsRegModalOpen(true)}
-              class="px-4 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-teal-500/20 flex items-center gap-2 transition-all"
+              class="w-full sm:w-auto justify-center px-4 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-teal-500/20 flex items-center gap-2 transition-all"
             >
               <UserPlus class="w-4 h-4" />
               <span>+ Issue New Token</span>
@@ -161,7 +161,7 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
               return (
                 <div 
                   key={tok.id}
-                  class={`p-4 rounded-xl border flex flex-wrap items-center justify-between gap-4 relative overflow-hidden transition-all ${
+                  class={`p-3.5 sm:p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 relative overflow-hidden transition-all ${
                     isInCabin 
                       ? 'bg-teal-950/40 border-teal-500/50 shadow-lg shadow-teal-950/40' 
                       : isWaiting 
@@ -175,50 +175,50 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
                   }`}></div>
 
                   {/* Token Number & Patient Details */}
-                  <div class="flex items-center gap-4 pl-2">
-                    <div class={`w-12 h-12 rounded-xl flex flex-col items-center justify-center border font-mono ${
+                  <div class="flex items-start sm:items-center gap-3 sm:gap-4 pl-1 sm:pl-2">
+                    <div class={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex flex-col items-center justify-center border font-mono flex-shrink-0 ${
                       isInCabin 
                         ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' 
                         : isWaiting 
                           ? 'bg-slate-800 border-slate-700 text-amber-400' 
                           : 'bg-slate-900 border-slate-800 text-slate-400'
                     }`}>
-                      <span class="text-[9px] font-bold uppercase">TOKEN</span>
-                      <span class="text-lg font-extrabold">#{tok.token_number}</span>
+                      <span class="text-[8px] sm:text-[9px] font-bold uppercase">TOKEN</span>
+                      <span class="text-base sm:text-lg font-extrabold">#{tok.token_number}</span>
                     </div>
 
-                    <div>
-                      <div class="flex items-center gap-2">
-                        <h3 class="font-bold text-white text-sm">{tok.patient?.full_name || 'Walk-in Patient'}</h3>
-                        <span class="text-xs text-slate-400 font-mono">({tok.patient?.age} {tok.patient?.gender?.charAt(0)})</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        <h3 class="font-bold text-white text-xs sm:text-sm truncate">{tok.patient?.full_name || 'Walk-in Patient'}</h3>
+                        <span class="text-[11px] sm:text-xs text-slate-400 font-mono">({tok.patient?.age} {tok.patient?.gender?.charAt(0)})</span>
                         
                         {/* Status Chip */}
                         {isInCabin && (
-                          <span class="px-2 py-0.5 text-[10px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 rounded-full animate-pulse flex items-center gap-1">
-                            ● IN DOCTOR CABIN
+                          <span class="px-2 py-0.5 text-[9px] sm:text-[10px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 rounded-full animate-pulse flex items-center gap-1">
+                            ● IN CABIN
                           </span>
                         )}
                         {isWaiting && (
-                          <span class="px-2 py-0.5 text-[10px] font-semibold bg-amber-500/20 text-amber-300 rounded-full">
+                          <span class="px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold bg-amber-500/20 text-amber-300 rounded-full">
                             Waiting
                           </span>
                         )}
                         {isCompleted && (
-                          <span class="px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 rounded-full flex items-center gap-1">
+                          <span class="px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 rounded-full flex items-center gap-1">
                             <CheckCircle2 class="w-3 h-3" /> Completed
                           </span>
                         )}
 
                         {/* Allergy Warning Alert */}
                         {hasAllergies && (
-                          <span class="px-2 py-0.5 text-[10px] font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded-full flex items-center gap-1">
+                          <span class="px-2 py-0.5 text-[9px] sm:text-[10px] font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded-full flex items-center gap-1">
                             <AlertTriangle class="w-3 h-3 text-rose-400" />
                             ALLERGIC: {tok.patient.allergies.join(', ')}
                           </span>
                         )}
                       </div>
 
-                      <div class="flex items-center gap-3 text-xs text-slate-400 mt-1 font-mono">
+                      <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-400 mt-1 font-mono">
                         <span>UHID: <span class="text-slate-300">{tok.patient?.uhid || 'MF-2026'}</span></span>
                         <span>•</span>
                         <span>Ph: {tok.patient?.phone}</span>
@@ -228,12 +228,12 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
                     </div>
                   </div>
 
-                  {/* Actions Right */}
-                  <div class="flex items-center gap-2">
+                  {/* Actions Right (Stack cleanly on mobile) */}
+                  <div class="flex items-center gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/80 w-full sm:w-auto justify-end">
                     {isWaiting && (
                       <button 
                         onClick={() => handleStartConsultation(tok)}
-                        class="px-3.5 py-1.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition-all"
+                        class="flex-1 sm:flex-none justify-center px-3.5 py-1.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition-all"
                       >
                         <Stethoscope class="w-3.5 h-3.5" />
                         <span>Call into Cabin</span>
@@ -243,7 +243,7 @@ export const OpdQueueView = ({ onNavigateToDoctor, onNavigateToBilling }) => {
                     {isInCabin && (
                       <button 
                         onClick={() => onNavigateToDoctor && onNavigateToDoctor(tok)}
-                        class="px-4 py-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-teal-500/20 flex items-center gap-1.5"
+                        class="flex-1 sm:flex-none justify-center px-4 py-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-teal-500/20 flex items-center gap-1.5"
                       >
                         <span>Open Rx Prescriber</span>
                         <ArrowRight class="w-3.5 h-3.5" />
