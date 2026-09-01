@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 min-h-screen font-sans;
+  }
+}
+
+/* Custom Glassmorphism & Thermal Paper styling */
+.glass-card {
+  @apply bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 shadow-xl;
+}
+
+.glass-card-hover {
+  @apply bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 shadow-xl transition-all duration-200 hover:border-teal-500/40 hover:shadow-teal-500/5;
+}
+
+.thermal-slip {
+  background: #fafaf9;
+  color: #0f172a;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  border-top: 5px dashed #94a3b8;
+  border-bottom: 5px dashed #94a3b8;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.8);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(20, 184, 166, 0.6);
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-area, .printable-area * {
+    visibility: visible;
+  }
+  .printable-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
