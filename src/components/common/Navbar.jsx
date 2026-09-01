@@ -15,6 +15,8 @@ import {
   Users 
 } from 'lucide-react';
 
+import { CustomSelect } from './CustomSelect';
+
 export const Navbar = ({ activeTab, setActiveTab }) => {
   const { clinic, doctors, activeDoctor, setActiveDoctor, isCloudConnected, setIsSettingsOpen } = useClinic();
   const [time, setTime] = useState(new Date());
@@ -23,6 +25,12 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const doctorOptions = doctors.map(doc => ({
+    value: doc.id,
+    label: `${doc.name} (${doc.room_no || 'OPD'})`,
+    subtext: `${doc.specialization} • Fee: ₹${doc.consultation_fee}`
+  }));
 
   const navItems = [
     { id: 'opd', label: 'OPD Queue', icon: Activity, badge: 'Live' },
@@ -52,24 +60,21 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
         </div>
 
         {/* Doctor Selector & Live Clock */}
-        <div class="hidden lg:flex items-center gap-4 bg-slate-950/60 px-3.5 py-1.5 rounded-xl border border-slate-800">
-          <div class="flex items-center gap-2 text-xs">
-            <UserCheck class="w-4 h-4 text-teal-400" />
-            <span class="text-slate-400">Dr:</span>
-            <select 
-              value={activeDoctor?.id || ''} 
-              onChange={(e) => {
-                const doc = doctors.find(d => d.id === e.target.value);
+        <div class="hidden lg:flex items-center gap-4 bg-slate-950/60 px-3 py-1.5 rounded-xl border border-slate-800">
+          <div class="flex items-center gap-2 text-xs min-w-[240px]">
+            <CustomSelect
+              options={doctorOptions}
+              value={activeDoctor?.id || ''}
+              onChange={(docId) => {
+                const doc = doctors.find(d => d.id === docId);
                 if (doc) setActiveDoctor(doc);
               }}
-              class="bg-transparent text-white font-semibold text-xs focus:outline-none cursor-pointer"
-            >
-              {doctors.map(doc => (
-                <option key={doc.id} value={doc.id} class="bg-slate-900 text-white">
-                  {doc.name} ({doc.room_no || 'OPD'})
-                </option>
-              ))}
-            </select>
+              icon={UserCheck}
+              placeholder="Select Doctor"
+              size="sm"
+              buttonClassName="bg-transparent border-transparent hover:bg-slate-900/80"
+              menuClassName="min-w-[280px]"
+            />
           </div>
 
           <div class="h-4 w-px bg-slate-800"></div>

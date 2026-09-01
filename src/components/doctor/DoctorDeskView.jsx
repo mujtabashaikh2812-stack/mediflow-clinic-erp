@@ -11,6 +11,7 @@ import {
   RX_PRESET_TEMPLATES 
 } from '../../services/starterData';
 import { RxPrintModal } from './RxPrintModal';
+import { CustomSelect } from '../common/CustomSelect';
 import { 
   Stethoscope, 
   AlertTriangle, 
@@ -22,7 +23,8 @@ import {
   Activity, 
   Sparkles, 
   ArrowRight, 
-  Check 
+  Check,
+  User
 } from 'lucide-react';
 
 export const DoctorDeskView = ({ onNavigateToBilling }) => {
@@ -215,26 +217,27 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
 
         {/* Switch Patient Dropdown / Queue Action */}
         <div class="flex items-center gap-3">
-          <div class="text-xs">
-            <label class="block text-slate-400 text-[10px] uppercase font-semibold mb-0.5">Switch Patient in Queue</label>
-            <select 
+          <div class="text-xs min-w-[260px]">
+            <label class="block text-slate-400 text-[10px] uppercase font-semibold mb-1">Switch Patient in Queue</label>
+            <CustomSelect
+              options={waitingTokens.map(tok => ({
+                value: tok.id,
+                label: `#${tok.token_number} - ${tok.patient?.full_name}`,
+                badge: tok.status,
+                subtext: `UHID: ${tok.patient?.uhid} • ${tok.patient?.age} Y (${tok.patient?.gender?.charAt(0)})`
+              }))}
               value={activeToken?.id || ''}
-              onChange={(e) => {
-                const tok = tokens.find(t => t.id === e.target.value);
+              onChange={(tokId) => {
+                const tok = tokens.find(t => t.id === tokId);
                 if (tok) {
                   updateTokenState(tok.id, 'WITH_DOCTOR');
                   setActiveToken(tok);
                 }
               }}
-              class="bg-slate-950 border border-slate-700 text-white font-semibold rounded-xl px-3 py-1.5 focus:outline-none focus:border-teal-400"
-            >
-              <option value="">-- Select Patient Token --</option>
-              {waitingTokens.map(tok => (
-                <option key={tok.id} value={tok.id}>
-                  #{tok.token_number} - {tok.patient?.full_name} ({tok.status})
-                </option>
-              ))}
-            </select>
+              icon={User}
+              placeholder="-- Select Patient Token --"
+              size="sm"
+            />
           </div>
 
           <button 
@@ -454,15 +457,16 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
           <div class="glass-card p-5 rounded-2xl space-y-3">
             <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Clinical Diagnosis</label>
             
-            <select 
+            <CustomSelect
+              options={COMMON_DIAGNOSES.map(diag => ({
+                value: diag,
+                label: diag
+              }))}
               value={selectedDiagnosis}
-              onChange={(e) => setSelectedDiagnosis(e.target.value)}
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-teal-400 font-medium"
-            >
-              {COMMON_DIAGNOSES.map((diag, idx) => (
-                <option key={idx} value={diag}>{diag}</option>
-              ))}
-            </select>
+              onChange={(diag) => setSelectedDiagnosis(diag)}
+              placeholder="Select Diagnosis..."
+              size="md"
+            />
 
             <div>
               <label class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Examination Findings / Doctor Notes</label>
@@ -597,19 +601,20 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
               </div>
 
               <div>
-                <select 
+                <CustomSelect
+                  options={[
+                    { value: 'TABLET', label: 'Tablet', badge: 'TAB' },
+                    { value: 'SYRUP', label: 'Syrup', badge: 'SYP' },
+                    { value: 'CAPSULE', label: 'Capsule', badge: 'CAP' },
+                    { value: 'INJECTION', label: 'Injection', badge: 'INJ' },
+                    { value: 'DROPS', label: 'Drops', badge: 'DRP' },
+                    { value: 'OINTMENT', label: 'Ointment', badge: 'OINT' },
+                    { value: 'CONSUMABLE', label: 'Consumable', badge: 'CON' }
+                  ]}
                   value={newDrug.form}
-                  onChange={(e) => setNewDrug({ ...newDrug, form: e.target.value })}
-                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-teal-400"
-                >
-                  <option value="TABLET">Tablet</option>
-                  <option value="SYRUP">Syrup</option>
-                  <option value="CAPSULE">Capsule</option>
-                  <option value="INJECTION">Injection</option>
-                  <option value="DROPS">Drops</option>
-                  <option value="OINTMENT">Ointment</option>
-                  <option value="CONSUMABLE">Consumable</option>
-                </select>
+                  onChange={(form) => setNewDrug({ ...newDrug, form })}
+                  size="sm"
+                />
               </div>
             </div>
 
@@ -637,31 +642,33 @@ export const DoctorDeskView = ({ onNavigateToBilling }) => {
             {/* Meal Timing & Duration */}
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
               <div>
-                <select 
+                <CustomSelect
+                  options={[
+                    { value: 'AFTER_FOOD', label: 'After Meal 🍽️' },
+                    { value: 'BEFORE_FOOD', label: 'Before Meal (Empty Stomach) 🥣' },
+                    { value: 'WITH_FOOD', label: 'With Meal 🍲' },
+                    { value: 'AT_BEDTIME', label: 'At Bedtime 🌙' }
+                  ]}
                   value={newDrug.timing}
-                  onChange={(e) => setNewDrug({ ...newDrug, timing: e.target.value })}
-                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-teal-400"
-                >
-                  <option value="AFTER_FOOD">After Meal</option>
-                  <option value="BEFORE_FOOD">Before Meal (Empty Stomach)</option>
-                  <option value="WITH_FOOD">With Meal</option>
-                  <option value="AT_BEDTIME">At Bedtime</option>
-                </select>
+                  onChange={(timing) => setNewDrug({ ...newDrug, timing })}
+                  size="sm"
+                />
               </div>
 
               <div>
-                <select 
+                <CustomSelect
+                  options={[
+                    { value: '3 Days', label: '3 Days' },
+                    { value: '5 Days', label: '5 Days' },
+                    { value: '7 Days', label: '7 Days' },
+                    { value: '10 Days', label: '10 Days' },
+                    { value: '15 Days', label: '15 Days' },
+                    { value: '1 Month', label: '1 Month' }
+                  ]}
                   value={newDrug.duration}
-                  onChange={(e) => setNewDrug({ ...newDrug, duration: e.target.value })}
-                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-teal-400"
-                >
-                  <option value="3 Days">3 Days</option>
-                  <option value="5 Days">5 Days</option>
-                  <option value="7 Days">7 Days</option>
-                  <option value="10 Days">10 Days</option>
-                  <option value="15 Days">15 Days</option>
-                  <option value="1 Month">1 Month</option>
-                </select>
+                  onChange={(duration) => setNewDrug({ ...newDrug, duration })}
+                  size="sm"
+                />
               </div>
 
               <div class="col-span-2 sm:col-span-1">

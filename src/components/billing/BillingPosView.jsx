@@ -3,6 +3,7 @@ import { useClinic } from '../../context/ClinicContext';
 import { apiCreateInvoice } from '../../services/apiService';
 import { triggerThermalPrint } from '../../services/thermalPrintService';
 import { sendWhatsAppInvoice } from '../../services/whatsappService';
+import { CustomSelect } from '../common/CustomSelect';
 import { 
   CreditCard, 
   Receipt, 
@@ -14,7 +15,8 @@ import {
   DollarSign, 
   Percent, 
   Check, 
-  Sparkles 
+  Sparkles,
+  User
 } from 'lucide-react';
 
 export const BillingPosView = () => {
@@ -145,18 +147,22 @@ export const BillingPosView = () => {
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-400 mb-1">Link Queue Token</label>
-                <select 
+                <CustomSelect
+                  options={[
+                    { value: '', label: '-- Direct Walk-in (No Token) --' },
+                    ...tokens.map(tok => ({
+                      value: tok.id,
+                      label: `Token #${tok.token_number} - ${tok.patient?.full_name}`,
+                      badge: tok.status,
+                      subtext: `UHID: ${tok.patient?.uhid || 'MF'} • Ph: ${tok.patient?.phone || ''}`
+                    }))
+                  ]}
                   value={selectedTokenId}
-                  onChange={(e) => handleSelectToken(e.target.value)}
-                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-400"
-                >
-                  <option value="">-- Direct Walk-in (No Token) --</option>
-                  {tokens.map(tok => (
-                    <option key={tok.id} value={tok.id}>
-                      Token #{tok.token_number} - {tok.patient?.full_name} ({tok.status})
-                    </option>
-                  ))}
-                </select>
+                  onChange={(tokId) => handleSelectToken(tokId)}
+                  placeholder="Select Token or Direct Walk-in"
+                  icon={User}
+                  size="md"
+                />
               </div>
 
               <div>

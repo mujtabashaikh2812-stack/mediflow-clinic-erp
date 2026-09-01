@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useClinic } from '../../context/ClinicContext';
 import { apiCreatePatient } from '../../services/apiService';
-import { UserPlus, X, AlertTriangle, Check } from 'lucide-react';
+import { CustomSelect } from '../common/CustomSelect';
+import { UserPlus, X, AlertTriangle, Check, User, HeartPulse, Stethoscope, ShieldAlert } from 'lucide-react';
 
 export const PatientRegistrationModal = ({ isOpen, onClose, onRegistered }) => {
   const { doctors, activeDoctor, issueNewToken, showToast, triggerConfetti } = useClinic();
@@ -140,34 +141,36 @@ export const PatientRegistrationModal = ({ isOpen, onClose, onRegistered }) => {
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
-              <select 
+              <CustomSelect
+                options={[
+                  { value: 'MALE', label: 'Male 👨' },
+                  { value: 'FEMALE', label: 'Female 👩' },
+                  { value: 'OTHER', label: 'Other 🧑' }
+                ]}
                 value={formData.gender}
-                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-teal-400"
-              >
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-                <option value="OTHER">Other</option>
-              </select>
+                onChange={(gender) => setFormData({ ...formData, gender })}
+                size="md"
+              />
             </div>
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Blood Group</label>
-              <select 
+              <CustomSelect
+                options={[
+                  { value: 'O+', label: 'O +ve' },
+                  { value: 'O-', label: 'O -ve' },
+                  { value: 'A+', label: 'A +ve' },
+                  { value: 'A-', label: 'A -ve' },
+                  { value: 'B+', label: 'B +ve' },
+                  { value: 'B-', label: 'B -ve' },
+                  { value: 'AB+', label: 'AB +ve' },
+                  { value: 'AB-', label: 'AB -ve' },
+                  { value: 'UNKNOWN', label: 'Unknown' }
+                ]}
                 value={formData.blood_group}
-                onChange={(e) => setFormData({ ...formData, blood_group: e.target.value })}
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-teal-400"
-              >
-                <option value="O+">O +ve</option>
-                <option value="O-">O -ve</option>
-                <option value="A+">A +ve</option>
-                <option value="A-">A -ve</option>
-                <option value="B+">B +ve</option>
-                <option value="B-">B -ve</option>
-                <option value="AB+">AB +ve</option>
-                <option value="AB-">AB -ve</option>
-                <option value="UNKNOWN">Unknown</option>
-              </select>
+                onChange={(blood_group) => setFormData({ ...formData, blood_group })}
+                size="md"
+              />
             </div>
           </div>
 
@@ -188,30 +191,33 @@ export const PatientRegistrationModal = ({ isOpen, onClose, onRegistered }) => {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Consulting Doctor</label>
-              <select 
+              <CustomSelect
+                options={doctors.map(doc => ({
+                  value: doc.id,
+                  label: doc.name,
+                  badge: doc.room_no || 'OPD',
+                  subtext: `${doc.specialization} • Fee: ₹${doc.consultation_fee}`
+                }))}
                 value={formData.doctorId}
-                onChange={(e) => setFormData({ ...formData, doctorId: e.target.value })}
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-teal-400"
-              >
-                {doctors.map(doc => (
-                  <option key={doc.id} value={doc.id}>
-                    {doc.name} - ₹{doc.consultation_fee} ({doc.room_no || 'OPD'})
-                  </option>
-                ))}
-              </select>
+                onChange={(doctorId) => setFormData({ ...formData, doctorId })}
+                icon={Stethoscope}
+                size="md"
+              />
             </div>
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Priority / Triage</label>
-              <select 
+              <CustomSelect
+                options={[
+                  { value: 'NORMAL', label: 'Standard Queue', badge: 'Normal' },
+                  { value: 'SENIOR_CITIZEN', label: 'Senior Citizen', badge: 'Fast-track' },
+                  { value: 'EMERGENCY', label: 'Emergency / Immediate', badge: 'Priority' }
+                ]}
                 value={formData.priority}
-                onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-teal-400"
-              >
-                <option value="NORMAL">Standard Queue</option>
-                <option value="SENIOR_CITIZEN">Senior Citizen / Fast-track</option>
-                <option value="EMERGENCY">Emergency / Immediate</option>
-              </select>
+                onChange={(priority) => setFormData({ ...formData, priority })}
+                icon={ShieldAlert}
+                size="md"
+              />
             </div>
           </div>
 
